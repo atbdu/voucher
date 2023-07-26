@@ -1,0 +1,61 @@
+span {
+    font-family: "Noto Sans SC";
+}
+
+.more-image {
+    height: 8px;
+    width: 11px;
+}
+
+.arrow-image {
+    height: 12px;
+    width: 12px;
+}
+
+.theme-col {
+    background-color: #146EFF !important;
+    color: #fff !important;
+    font-size: 12px;
+    font-family: "Noto Sans SC";
+}
+
+.bor-not {
+    border: none !important;
+}
+
+.box-op {
+    border: none;
+    background-color:#fff;
+    color: #222;
+    box-shadow: rgba(110, 110, 110, 0.2) 0px 2px 8px 0px;
+}
+.text-li1 {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.text-li2 {
+    font-size: 12px;
+    font-weight: 400;
+}
+.box-min {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 125px;
+    padding: 15px 20px;
+}
+.img-pre {
+    position: absolute;
+    top: 50%;
+    left: 85%;
+    transform: translate(-50%,-50%);
+    height: 68px;
+    width: 68px
+}
+.ht-1 {
+    font-size: 15px;
+    color: #222222;
+    margin: 10px 0 15px 25px;
+}

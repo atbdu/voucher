@@ -1,0 +1,306 @@
+/*两个输入框的样式*/
+.el-input {
+    position: relative;
+    font-size: 14px;
+    display: inline-block;
+    width: 100%;
+}
+/*输入框中的图标样式*/
+.el-input--prefix .el-input__inner {
+    padding-left: 30px;
+}
+.el-input__inner {
+    -webkit-appearance: none;
+    background-color: #FFF;
+    background-image: none;
+    border-radius: 4px;
+    border: 1px solid #DCDFE6;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 40px;
+    line-height: 40px;
+    outline: 0;
+    padding: 0 15px;
+        padding-left: 15px;
+    -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    width: 100%;
+}
+.el-input__prefix {
+    left: 5px;
+    transition: all .3s;
+}
+.el-input__prefix, .el-input__suffix {
+    position: absolute;
+    top: 0;
+    -webkit-transition: all .3s;
+    height: 100%;
+    color: #C0C4CC;
+    text-align: center;
+}
+.el-input--prefix .el-input__inner {
+    padding-left: 30px;
+}
+.el-input--suffix .el-input__inner {
+    padding-right: 30px;
+}
+.el-checkbox {
+    color: #606266;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    -moz-user-select: none;
+    user-select: none;
+    margin-right: 30px;
+}
+.el-checkbox, .el-checkbox__input {
+    display: inline-block;
+    position: relative;
+    white-space: nowrap;
+}
+
+.el-checkbox__inner:hover {
+    border-color: #409EFF;
+}
+.el-checkbox__inner {
+    display: inline-block;
+    position: relative;
+    border: 1px solid #DCDFE6;
+        border-top-color: rgb(220, 223, 230);
+        border-right-color: rgb(220, 223, 230);
+        border-bottom-color: rgb(220, 223, 230);
+        border-left-color: rgb(220, 223, 230);
+    border-radius: 2px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 14px;
+    height: 14px;
+    background-color: #FFF;
+    z-index: 1;
+    -webkit-transition: border-color .25s cubic-bezier(.71,-.46,.29,1.46),background-color .25s cubic-bezier(.71,-.46,.29,1.46);
+    transition: border-color .25s cubic-bezier(.71,-.46,.29,1.46),background-color .25s cubic-bezier(.71,-.46,.29,1.46);
+}
+input[type="checkbox"]{
+    width:16px;
+    height:16px;
+    border:1px solid #cccccc;
+    background-color:#fff;
+    line-height:16px;
+    border-radius:2px;
+    color:#fff;
+    text-align:center;
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    -ms-appearance:none;
+    -o-appearance:none;
+}
+input[type="checkbox"]:checked{
+    color:#333;
+}
+input[type="checkbox"]:after{
+    content:"✔";
+}
+.el-button {
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    background: #FFF;
+        background-color: rgb(255, 255, 255);
+    border: 1px solid #DCDFE6;
+        border-top-color: rgb(220, 223, 230);
+        border-right-color: rgb(220, 223, 230);
+        border-bottom-color: rgb(220, 223, 230);
+        border-left-color: rgb(220, 223, 230);
+    color: #606266;
+    -webkit-appearance: none;
+    text-align: center;
+    box-sizing: border-box;
+    outline: 0;
+    margin: 0;
+        margin-top: 0px;
+    -webkit-transition: .1s;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+.el-button--primary {
+    color: #FFF;
+    background-color: #409EFF;
+    border-color: #409EFF;
+}
+.el-button--primary:focus, .el-button--primary:hover {
+    background: #66b1ff;
+    border-color: #66b1ff;
+    color: #FFF;
+}
+
+.el-input__icon {
+    height: 100%;
+    width: 25px;
+    text-align: center;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    line-height: 40px;
+}
+[class*=" el-icon-"], [class^="el-icon-"] {
+    font-family: element-icons !important;
+    speak: none;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: baseline;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.eye:hover{
+ color:#66b1ff
+}
+.input_fa{
+margin-top:15px;margin-right:5px;font-size:15px
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+div,
+ul,
+li,
+input {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	font-family: microsoft YaHei, Aril;
+	font-size: 12px;
+	background-color: #eef3f7;
+}
+
+a {
+	text-decoration: none;
+	color: #4a8cef;
+}
+
+ul,
+li {
+	list-style: none;
+}
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+.clear {
+	clear: both;
+}
+
+.ml-5 {
+	margin-left: 5px;
+}
+
+.mt-10 {
+	margin-top: 10px;
+}
+
+.mt-15 {
+	margin-top: 15px;
+}
+
+.mt-20 {
+	margin-top: 20px;
+}
+
+.mt-50 {
+	margin-top: 50px !important;
+}
+
+.mb-20 {
+	margin-bottom: 20px;
+}
+
+[v-cloak] {
+	display: none
+}
+
+
+/*登录*/
+.login_bg {
+	width: 100%;
+	height: calc(50vh);
+	background-color: #4a8cef;
+	position: relative;
+}
+
+.login_title {
+	width: 550px;
+	position: absolute;
+	top: 30%;
+	left: 50%;
+	margin-left: -275px;
+}
+
+.login_title h1 {
+	font-size: 28px;
+	color: #fff;
+	font-weight: 500;
+	text-align: center;
+	letter-spacing: 1px;
+	text-shadow: 0 3px 3px #0b60de;
+}
+
+.loginPane {
+	width: 550px;
+	height: 400px;
+	background-color: #ffffff0f;
+	border-radius: -1px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -275px;
+	transition: ease all 0.5s;
+	box-shadow: 0 5px 10px #4a8cef59;
+}
+
+.loginInputBox {
+	width: 70%;
+	margin: 0 auto;
+}
+
+.loginImg {
+	display: block;
+	width: 225px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 23px;
+	margin-bottom: 30px;
+}
+
+.loginInputBox .el-input__inner {
+	height: 44px;
+	line-height: 44px;
+}
+
+.loginBtn {
+	width: 100%
+}
+

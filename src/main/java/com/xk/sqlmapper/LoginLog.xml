@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="LoginLog">
+	<select id="getPageList" resultType="map" parameterType="Page">
+		select * from login_log where 1=1
+		<if test="params.Id!=null and params.Id!=''">
+			and Id = '${params.Id}'
+		</if>
+		<if test="params.user_code!=null and params.user_code!=''">
+			and user_code like '%${params.user_code}%'
+		</if>
+		<if test="params.system_tag!=null and params.system_tag!=''">
+			and system_tag = '${params.system_tag}'
+		</if>
+		<if test="params.max_date!=null and params.max_date!=''">
+			and add_date <![CDATA[<= ]]> '${params.max_date}'
+		</if>
+		<if test="params.min_date!=null and params.min_date!=''">
+			and add_date <![CDATA[>= ]]> '${params.min_date}'
+		</if>
+		<if test="params.max_time!=null and params.max_time!=''">
+			and add_time <![CDATA[<= ]]> '${params.max_time}'
+		</if>
+		<if test="params.min_time!=null and params.min_time!=''">
+			and add_time <![CDATA[>= ]]> '${params.min_time}'
+		</if>
+		order by id desc
+	</select>
+	<select id="getOne" resultType="com.xk.entity.LoginLog" parameterType="int">
+		select * from login_log where Id=#{id}
+	</select>
+	<!-- 添加登陆日志信息 -->
+	<insert id="inserloginlog" parameterType="map">
+		insert into login_log(
+						remark,
+						status,
+						user_code,
+						add_date,
+						add_time,
+						login_ip,
+						system_tag
+					)values(
+						#{remark},
+						#{status},
+						#{user_code},
+						now(),
+						now(),
+						#{login_ip},
+						#{system_tag})
+	</insert>
+	<update id="update"  parameterType="int">
+		update login_log set remark=#{remark},status=#{status},user_code=#{user_code},add_date=#{add_date},add_time=#{add_time},login_ip=#{login_ip} where Id=#{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from login_log where Id=#{id}
+	</delete>
+</mapper> 
+

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Permission">
+	<select id="getPageList" resultType="map" parameterType="Page">
+		select * from permission where 1=1
+		<if test="params.Id!=null and params.Id!=''">
+			and Id = '${params.Id}'
+		</if>
+	</select>
+	<!-- 获取选中菜单下的所有按钮 -->
+	<select id="getAllButtonByCarte" resultType="map" parameterType="com.xk.entity.Permission">
+		select * from permission where carte_id=#{carte_id} and system_tag=#{system_tag}
+	</select>
+	<!-- 获取单个数据 -->
+	<select id="getOne" resultType="com.xk.entity.Permission" parameterType="int">
+		select * from permission where per_id=#{per_id}
+	</select>
+	<!-- 添加按钮 -->
+	<insert id="insert">
+		insert into permission(per_id,system_tag,lower_href,carte_id,add_date,button_name,add_user,href)
+		 values(seq_permission.nextval,#{system_tag},#{lower_href},#{carte_id},#{add_date},#{button_name},#{add_user},#{href})
+	</insert>
+	<!-- 修改按钮信息 -->
+	<update id="update"  parameterType="int">
+		update permission set lower_href=#{lower_href},add_date=#{add_date},button_name=#{button_name},add_user=#{add_user},href=#{href} where per_id=#{per_id} and carte_id=#{carte_id} and system_tag=#{system_tag} 
+	</update>
+	<!-- 删除按钮 -->
+	<delete id="delete" parameterType="com.xk.entity.Permission">
+		delete from permission where per_id=#{per_id} and carte_id=#{carte_id} and system_tag=#{system_tag}
+	</delete>
+	<!-- 根据菜单编号和平台编号删除按钮 -->
+	<delete id="deleteByCarte" parameterType="map">
+		delete from permission where carte_id=#{carte_id} and system_tag=#{system_tag}
+	</delete>
+	<!-- 获取选中菜单下的所有按钮 -->
+	<select id="getAllButtonByUser" resultType="map" parameterType="map">
+		select * from permission where per_id in (select per_id from permission_mapping where system_tag=#{system_tag} and user_code=#{user_code})
+	</select>
+	
+</mapper> 
+

@@ -1,0 +1,116 @@
+body{
+    background: -webkit-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
+    background: -moz-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
+    background: -o-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
+    background: -ms-linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
+    background: linear-gradient(top, rgb(203, 235, 219) 0%, rgb(55, 148, 192) 120%);
+    -webkit-perspective-origin-y: 25%;
+}
+.login_bg{
+    text-align: center;
+    margin-top: 180px;
+    /*border: 1px solid black;*/
+}
+/* 图片 */
+.loginImg{
+    width: 290px;/* 设置图片大小 */
+    vertical-align: top;
+    margin-top: 95px;
+}
+/* 竖线 */
+.line{
+    border: 0.5px solid #5F9EA0;
+    background: #5F9EA0;
+    height: 400px;
+    display: inline-block; /* 设置当前元素为行内块元素,既可以同行显示,也可以设置宽高 */
+    margin-right: 50px;
+    margin-left: 50px;
+}
+/* 输入框 */
+.loginInputBox{
+    display: inline-block;/* 行内块元素,可以和其它元素显示在同一行 */
+    vertical-align: top;/* 让输入框的顶部和同行内最高元素的顶部对齐 */
+    margin-top: 30px;
+}
+/* 企业登录字体 */
+.login_title{
+    color: white;
+    font-size: 20px;
+    text-align: left;
+    margin-bottom: 50px;
+}
+/* 设置文本框placeholder属性颜色 */
+input::-webkit-input-placeholder{
+    color: #EEE9E9;
+}
+/*文本框输入时字体颜色*/
+input{
+    color: white;
+    outline: none;
+}
+/* 两个文本框 */
+.el-input__inner{
+    background:none;
+    border: none;
+    border-bottom: 1px solid #5F9EA0;
+    outline: none;
+    width: 300px;
+    height: 20px;
+    margin-bottom: 30px;
+}
+/* 复选框 */
+.el-checkbox{
+    margin-right: 210px;
+    color: white;
+}
+/* 复选框未点击前 */
+input[type="checkbox"]{
+    -webkit-appearance: none;/* 取消原有样式 */
+    float: left;
+    position: relative;
+    vertical-align:middle;
+    margin-top:0;
+    background:#fff;
+    border:#999 solid 1px;
+    border-radius: 10px;
+    min-height: 15px;
+    min-width: 15px;
+    outline: none;
+}
+/* 复选框点击之后 */
+input[type=checkbox]:checked::after{
+    content: '\2713';
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    height: 13px;
+    width: 14px;
+    background-color: #7FFF00;
+    position: absolute;
+    vertical-align: middle;
+    border-radius: 10px;
+}
+/* 复选框文本 */
+.el-checkbox__label{
+    margin-top: 10px;
+    font-size: 10px;
+}
+.clear {
+    clear: both;
+}
+/* 按钮 */
+#login-button{
+    margin-top: 50px;
+    /*margin-right: 220px;*/
+}
+button{
+    background-color: #FFFFF0;
+    border: none;
+    color: #4682B4;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 5px;
+}

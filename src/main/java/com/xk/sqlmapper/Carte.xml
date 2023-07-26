@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Carte">
+	<select id="getPageList" resultType="map" parameterType="Page">
+		select * from carte where 1=1
+		<if test="params.Id!=null and params.Id!=''">
+			and Id = '${params.Id}'
+		</if>
+	</select>
+	
+	<!-- 根据平台编号查询该平台下的所有菜单 -->
+	<select id="getAllCarteByTag" resultType="map" parameterType="int">
+		select * from carte where system_tag=#{system_tag}  order by carte_no
+	</select>
+	
+	<!-- 获取一级菜单的最大编号 -->
+	<select id="getMaxCarteNo" resultType="String" parameterType="int">
+		select max(carte_no) from carte where system_tag=#{system_tag} and levels=1
+	</select>
+	
+	<!-- 获取指定菜单下的节点最大编号 -->
+	<select id="getMaxCarteNoByNo" resultType="String" parameterType="map">
+		select max(carte_no) from carte where system_tag=#{system_tag} and parent_carte_no=#{parent_carte_no} 
+	</select>
+	
+	<select id="getOne" resultType="com.xk.entity.Carte" parameterType="int">
+		select * from carte where Id=#{id}
+	</select>
+	<!-- 根据ID和平台标识获取菜单信息 -->
+	<select id="getOneByIdAndSystem" resultType="com.xk.entity.Carte" parameterType="map">
+		select * from carte where id=#{id} and system_tag=#{system_tag}
+	</select>
+	
+	<!-- 添加菜单 -->
+	<insert id="insert">
+		insert into carte(parent_carte_no,system_tag,carte_intro,levels,carte_name,target,add_date,rel,add_user,carte_no,href)
+		 values(#{parent_carte_no},#{system_tag},#{carte_intro},#{levels},#{carte_name},#{target},#{add_date},#{rel},#{add_user},#{carte_no},#{href})
+	</insert>
+	
+	<!-- 修改菜单信息 -->
+	<update id="update"  parameterType="int">
+		update carte set parent_carte_no=#{parent_carte_no},carte_intro=#{carte_intro},levels=#{levels},carte_name=#{carte_name},target=#{target},add_date=#{add_date},rel=#{rel},add_user=#{add_user},href=#{href},carte_no=#{carte_no} where system_tag=#{system_tag} and id=#{id}
+	</update>
+	
+	<!-- 根据ID和平台标识删除菜单 -->
+	<delete id="delete" parameterType="int">
+		delete from carte where id=#{id} and system_tag=#{system_tag}
+	</delete>
+	
+	<!-- 根据用户编号查询该用户拥有的总后台菜单 -->
+	<select id="getCartebyUserCode" resultType="map" parameterType="map">
+		SELECT * FROM carte WHERE system_tag = #{system_tag}
+		AND carte_no IN (
+			SELECT carte_no FROM user_allot WHERE  role_id= #{role_id}
+			UNION ALL
+			SELECT DISTINCT parent_carte_no FROM carte WHERE carte_no IN (
+				SELECT carte_no FROM user_allot WHERE   role_id= #{role_id}
+			) AND levels = 2
+		)
+     	order by carte_no
+	</select>
+	
+	<!-- 获取指定菜单下的子菜单数量 -->
+	<select id="getCountByNo" resultType="int" parameterType="map">
+		select count(*) from carte where system_tag=#{system_tag} and parent_carte_no=#{parent_carte_no} 
+	</select>
+
+
+	<select id="getBtnbyUserCode" resultType="map" parameterType="map">
+		SELECT GROUP_CONCAT(href) as url,carte_id FROM permission_mapping pm
+		LEFT JOIN permission pe ON pm.per_id = pe.per_id
+		WHERE role_id = #{role_id}  and system_tag = #{system_tag}
+		GROUP  BY carte_id
+	</select>
+
+	<select id="getBtnbyUserCodeAll" resultType="map" parameterType="map">
+		SELECT href FROM permission  WHERE  system_tag = #{system_tag}
+	</select>
+
+</mapper> 
+

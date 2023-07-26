@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BaseInfo">
+	<select id="getPageList" resultType="map" parameterType="Page">
+		select bi.id id,bi.info_en info_en,bi.info info,bi.status status,
+		bi.add_date add_date,bi.add_user add_user,bi.class_en class_en,ui.real_name real_name, bic.class_cn as class_cn from (
+			select * from base_info where 1=1
+			<if test="params.Id!=null and params.Id!=''">
+				and id = '${params.id}'
+			</if>
+			<!--根据所属英文名模糊查询  -->
+			<if test="params.class_en!=null and params.class_en!=''">
+				and class_en = '${params.class_en}'
+			</if>
+			<!--根据值模糊查询  -->
+			<if test="params.info!=null and params.info!=''">
+				and info like '%${params.info}%'
+			</if>
+			<!--根据添加人模糊查询  -->
+			<if test="params.add_user!=null and params.add_user!=''">
+				and add_user like '%${params.add_user}%'
+			</if>
+		) bi left join base_info_class bic on bi.class_en=bic.class_en left join user_info ui on bi.add_user=ui.user_code
+	</select>
+	<select id="getOne" resultType="com.xk.entity.BaseInfo" parameterType="int">
+		select * from base_info where id=#{id}
+	</select>
+	<!--查询所有基础信息  -->
+	<select id="getAllBase" resultType="map">
+		select info_en,info,class_en from base_info
+	</select>
+	<insert id="insert">
+		insert into base_info(status,add_date,class_en,add_user,info_en,info)
+		 values(#{status},#{add_date},#{class_en},#{add_user},#{info_en},#{info})
+	</insert>
+	<update id="update"  parameterType="int">
+		update base_info set status=#{status},class_en=#{class_en},info_en=#{info_en},info=#{info} where Id=#{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from base_info where Id=#{id}
+	</delete>
+	<!-- 获取基本数据 -->
+	<select id="getDataByKeyen" resultType="map">
+		select info_en,info,class_en from base_info where status=1 order by info_en  
+	</select>
+	<!-- 获取图片基础信息 -->
+	<select id="getpicbaseinfo" resultType="map" parameterType="map">
+		select info_en,info from base_info t where t.class_en=#{class_en} and status=1 order by add_date
+	</select>
+	<!-- 获取单项图片基础信息 -->
+	<select id="getOnepicbaseinfo" resultType="com.xk.entity.BaseInfo" parameterType="map">
+		select info_en,info from base_info t where t.class_en=#{class_en} and status=1 and t.info_en=#{info_en}  order by add_date
+	</select>
+	
+	<!-- 检查英文标志是否唯一-->
+	<select id="checkinfoen" resultType="int" parameterType="map">
+		select count(*) from base_info where info_en=#{info_en} 
+		<if test="class_en!=null and class_en!=''">
+			and class_en=#{class_en}
+		</if>
+	</select>
+	<!--根据英文名称查询启用的 -->
+	<select id="getinfobyclass" parameterType="String" resultType="map">
+		select info_en,info from BASE_INFO where class_en=#{class_en} and status=1
+	</select>
+		<!-- 获取多个值的类型 -->
+	<select id="getKeyByValue" resultType="map">
+		select class_en,class_cn from base_info_class where status=1 order by add_date desc
+	</select>
+</mapper> 
+

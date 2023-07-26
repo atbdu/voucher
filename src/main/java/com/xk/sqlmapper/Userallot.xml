@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Userallot">
+	<select id="getPageList" resultType="map" parameterType="Page">
+		select * from userallot where 1=1
+		<if test="params.Id!=null and params.Id!=''">
+			and Id = '${params.Id}'
+		</if>
+	</select>
+	<select id="getOne" resultType="com.xk.entity.Userallot" parameterType="int">
+		select * from userallot where Id=#{id}
+	</select>
+	<!-- 分配菜单权限 -->
+	<insert id="insert" parameterType="map">
+		insert into userallot(system_tag,user_code,add_date,add_user,carte_no) 
+		select  #{system_tag},#{user_code},#{add_date},#{add_user},id from carte where id in 
+		<foreach item="item" collection="cartes" open="("  
+            separator="," close=")">
+            #{item}
+        </foreach>
+	</insert>
+	<update id="update"  parameterType="int">
+		update userallot set system_tag=#{system_tag},user_code=#{user_code},add_date=#{add_date},add_user=#{add_user},carte_no=#{carte_no} where Id=#{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from userallot where Id=#{id}
+	</delete>
+	
+	<!-- 根据用户编号和平台编号查询菜单以及菜单下的按钮 -->
+	<select id="getCarteAndButtonByUserSys" resultType="map" parameterType="map">
+		select p.per_id,p.button_name button_name,c.id carte_id,
+		replace((select distinct to_char(wmsys.wm_concat(ct.carte_name)) from carte ct where ct.carte_no=substr(substr(c.carte_no,1,levels*2)||'000000',1,8) and ct.system_tag=#{system_tag} group by substr(c.carte_no,1,2)),',','>>') as carte_name 
+		from carte c left join permission p on (p.carte_id=c.id and p.system_tag=#{system_tag})
+		where c.id in (select carte_no from userallot where user_code=#{user_code} and system_tag=#{system_tag}) and p.per_id is not null order by c.carte_no
+	</select>
+	<!-- 删除选中用户的菜单 -->
+	<delete id="deleteByUser" parameterType="map">
+		delete from userallot where user_code=#{user_code} and system_tag=#{system_tag}
+	</delete>
+</mapper> 
+

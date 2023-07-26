@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PermissionMapping">
+	<select id="getPageList" resultType="map" parameterType="Page">
+		select * from permission_mapping where 1=1
+		<if test="params.Id!=null and params.Id!=''">
+			and Id = '${params.Id}'
+		</if>
+	</select>
+	<select id="getOne" resultType="com.xk.entity.PermissionMapping" parameterType="int">
+		select * from permission_mapping where Id=#{id}
+	</select>
+	<update id="update"  parameterType="int">
+		update permission_mapping set system_tag=#{system_tag},user_code=#{user_code},add_date=#{add_date},add_user=#{add_user},per_id=#{per_id} where Id=#{id}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from permission_mapping where Id=#{id}
+	</delete>
+	
+	<!-- 查询用户的按钮 -->
+	<select id="getBtnByUserSys" resultType="map" parameterType="map">
+		select per_id from permission_mapping where system_tag=#{system_tag} and user_code=#{user_code} 
+	</select>
+	<!-- 根据用户编号和平台编号删除按钮权限 -->
+	<delete id="deleteBtnByUserAndSys" parameterType="map">
+		delete from permission_mapping where user_code=#{user_code} and system_tag=#{system_tag}
+	</delete>
+	
+	<!-- 分配按钮权限 -->
+	<insert id="insert" parameterType="map">
+		insert into permission_mapping(user_code,per_id,system_tag,add_user,add_date) 
+		select  #{user_code},per_id,#{system_tag},#{add_user},#{add_date} from permission where per_id in 
+		<foreach item="item" collection="perArr" open="("  
+            separator="," close=")">
+            #{item}
+        </foreach>
+	</insert>
+	
+</mapper> 
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Cache">
+	<select id="UserInfo" resultType="map">
+		select user_code,real_name,role_no,status,system_tag from user_info
+	</select>
+	<select id="AgentInfo" resultType="map">
+		select agent_no,agent_name,pagent_no,clerk from agent UNION select '0','立减金','0','admin'
+	</select>
+	<select id="pay_channel" resultType="map">
+		select channel_no,channel_short_name,is_other_arg,other_args,channel_rim from pay_channel
+	</select>
+</mapper> 
+

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BaseInfoClass">
+	<select id="getPageList" resultType="map" parameterType="Page">
+		select bc.class_en class_en,bc.class_cn class_cn,bc.ramark ramark,bc.add_date add_date,bc.status status,bc.add_user add_user,ui.real_name from (
+			select * from base_info_class where 1=1
+			<!--根据英文名模糊查询  -->
+			<if test="params.class_en!=null and params.class_en!=''">
+				and class_en like '%${params.class_en}%'
+			</if>
+			<!--根据中文名模糊查询  -->
+			<if test="params.class_cn!=null and params.class_cn!=''">
+				and class_cn like '%${params.class_cn}%'
+			</if>
+			<!--根据添加人模糊查询  -->
+			<if test="params.add_user!=null and params.add_user!=''">
+				and add_user like '%${params.add_user}%'
+			</if>
+		) bc left join user_info ui on bc.add_user=ui.user_code
+	
+	</select>
+	<select id="getOne" resultType="com.xk.entity.BaseInfoClass" parameterType="int">
+		select * from base_info_class where class_en=#{class_en}
+	</select>
+	<insert id="insert">
+		insert into base_info_class(status,ramark,add_date,class_en,class_cn,add_user)
+		 values(#{status},#{ramark},#{add_date},#{class_en},#{class_cn},#{add_user})
+	</insert>
+	<update id="update"  parameterType="int">
+		update base_info_class set status=#{status},ramark=#{ramark},class_cn=#{class_cn} where class_en=#{class_en}
+	</update>
+	<delete id="delete" parameterType="String">
+		delete from base_info_class where class_en=#{class_en}
+	</delete>
+	<delete id="deletes" parameterType="string">
+		delete from base_info_class where class_en=#{class_en}
+	</delete>
+	<!-- 获取多个值的类型 -->
+	<select id="getKeyByValue" resultType="map">
+		select class_en,class_cn from base_info_class where status=1 order by add_date desc
+	</select>
+	<!-- 检查英文标志是否唯一-->
+	<select id="checkclassen" resultType="int" parameterType="String">
+		select count(*) from base_info_class where class_en=#{class_en}
+	</select>
+</mapper> 
+

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserInfo">
+	<select id="getPageList" resultType="map" parameterType="Page">
+		select ui.* from USER_INFO ui where 1=1
+		<!--状态  是否启用 0禁用 1启用 -->
+		<if test="params.status!=null and params.status!=''">
+			and ui.status = #{params.status} 
+		</if>
+		<!--用户真实姓名  模糊搜索 -->
+		<if test="params.real_name!=null and params.real_name!=''">
+			and ui.real_name like '%${params.real_name}%' 		
+		</if>
+		<!--联系电话   模糊搜索 -->
+		<if test="params.link_phone!=null and params.link_phone!=''">
+			and ui.link_phone like '%${params.link_phone}%'		
+		</if>
+		<!-- QQ模糊搜索 -->
+		<if test="params.qq!=null and params.qq!=''">
+			and ui.qq like '%${params.qq}%' 		
+		</if>
+		<!-- 添加人 模糊搜索 -->
+		<if test="params.add_user!=null and params.add_user!=''">
+			and ui.add_user like '%${params.add_user}%' 		
+		</if>
+		<!-- 用户名英文简称(登陆名 唯一)模糊搜索 -->
+		<if test="params.user_code!=null and params.user_code!=''">
+			and ui.user_code like '%${params.user_code}%' 		
+		</if>
+		<!-- 邮箱 模糊搜索 -->
+		<if test="params.email!=null and params.email!=''">
+			and ui.email like '%${params.email}%' 		
+		</if>
+		<!-- 角色编号  模糊搜索 -->
+		<if test="params.role_no!=null and params.role_no!=''">
+			and ui.role_no = #{params.role_no} 		
+		</if>
+		<!-- 所属平台 模糊搜索 -->
+		<if test="params.system_tag!=null and params.system_tag!=''">
+			and ui.system_tag like '%${params.system_tag}%' 		
+		</if>
+		<!-- 公司  模糊搜索 -->
+		<if test="params.company!=null and params.company!=''">
+			and ui.company_no = #{params.company} 		
+		</if>
+		<!-- cookie 模糊搜索 -->
+		<if test="params.cookie!=null and params.cookie!=''">
+			and ui.cookie like '%${params.cookie}%' 		
+		</if>
+		<!-- 添加时间  模糊搜索 -->
+		<if test="params.add_date!=null and params.add_date!=''">
+			and ui.add_date like '%${params.add_date}%' 		
+		</if>
+		<!-- 最后登录ip  模糊搜索 -->
+		<if test="params.last_login_ip!=null and params.last_login_ip!=''">
+			and ui.last_login_ip like '%${params.last_login_ip}%' 		
+		</if>
+		<!-- 最后登录时间   模糊搜索 -->
+		<if test="params.last_login_date!=null and params.last_login_date!=''">
+			and ui.last_login_date like '%${params.last_login_date}%' 		
+		</if>
+		<!-- 登录总次数   -->
+		<if test="params.login_num!=null and params.login_num!=''">
+			and ui.login_num = #{params.login_num}		
+		</if>
+	
+	
+	</select>
+	<!--获取一个用户 -->
+	<select id="getOne" resultType="com.xk.entity.UserInfo" parameterType="String">
+		select * from user_info where user_code=#{user_code}
+	</select>
+	<!--获取一个企业用户 -->
+	<select id="findUserByStdidno" resultType="com.xk.entity.UserInfo" parameterType="String">
+		select * from user_info where company_no=(select com_object_no from company where contacts_phone=#{_params})
+	</select>
+	<!--获取token登录的用户-->
+	<select id="findClient_argsBytoken" resultType="UserInfo" parameterType="string">
+		select * from user_info where company_no=(select client_no from clients_args where unionPay_token=#{_params} and is_unionPay=1)
+	</select>
+	<!--获取业务员 -->
+	<select id="sellerList" resultType="map" >
+		select * from user_info where role_no=2
+	</select>
+    <!--根据user_code查询 -->
+	<select id="selectcode" resultType="com.xk.entity.UserInfo" parameterType="String">
+		select * from user_info where user_code=#{user_code}
+	</select>
+	<!--用户添加 -->
+	<insert id="insert" parameterType="com.xk.entity.UserInfo">
+		insert into user_info (system_tag,status,last_login_date,link_phone,user_code,add_date,last_login_ip,user_pass,cookie,company_no,email,role_no,login_num,real_name,add_user,qq) 
+		 values(#{system_tag},#{status},#{last_login_date},#{link_phone},#{user_code},#{add_date},#{last_login_ip},#{user_pass},#{cookie},#{company_no},#{email},#{role_no},#{login_num},#{real_name},#{add_user},#{qq})
+	</insert>
+    <!--更新  -->
+	<update id="update"  parameterType="com.xk.entity.UserInfo">
+		update user_info set system_tag=#{system_tag},status=#{status},link_phone=#{link_phone},user_code=#{user_code},user_pass=#{user_pass},cookie=#{cookie},company_no=#{company_no},email=#{email},role_no=#{role_no},real_name=#{real_name},qq=#{qq} where user_code=#{user_code}
+	</update>
+	<!--删除用户  -->
+	<delete id="deleteUser" parameterType="String">
+		delete from user_info where user_code=#{user_code} 
+	</delete>
+	<!-- 用户登录 -->
+	<select id="loginUser" parameterType="map" resultType="UserInfo">
+	select * from user_info where user_code=#{user_code} and system_tag=1
+	</select>
+	<!-- 检查user_code是否存在 -->
+	<select id="checkcode" parameterType="String" resultType="int">
+		select COUNT(*) from user_info where user_code=#{user_code}
+	</select>
+	<!-- 修改用户信息 -->
+	<update id="updateInfo" parameterType="map">
+	    update user_info set 
+			    last_login_date=#{last_login_date},
+			    last_login_ip=#{last_login_ip},
+			    login_num=login_num+1,
+			    err_num=#{err_num}
+		<if test="status!=null and status!=''">
+			,status=2
+		</if>
+        where user_code=#{user_code}
+	</update>
+	<!-- 获取用户 user_code 和 用户姓名 -->
+	<select id="getObjectList" resultType="map" >
+		select user_code,real_name from user_info where role_no=1
+	</select>
+    <!--更新状态 0 禁用 1启用 -->
+	<update id="updateStatus" parameterType="com.xk.entity.UserInfo" >
+	 	update user_info set status=#{status} where user_code=#{user_code} 
+	</update>
+	<!--重置密码 -->
+	<update id="updatepass" parameterType="com.xk.entity.UserInfo" >
+	 	update user_info set user_pass=#{user_pass} where user_code=#{user_code} 
+	</update>
+	<!-- autosalename 自动补全获取销售员名称-->
+	<select id="getSaleName" resultType="String" >
+		select real_name from user_info where role_no=2 and status=1
+	</select>
+</mapper> 
+
