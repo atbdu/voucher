@@ -81,9 +81,9 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, Integer> impl
       String user_code = map.get("user_code").toString().trim();// 去前后空格
       map.put("user_code", user_code);//去掉前后空格
       Matcher matcher = Pattern.compile("^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\\d{8}$").matcher(user_code);  //防止SQL注入，用户限制数字、字母、下划线
-      if (!matcher.find()) {   //所有密码、用户错误都返回同样错误码，不具体提错误在哪，防止套取用户名
-        return "error";
-      }
+//      if (!matcher.find()) {   //所有密码、用户错误都返回同样错误码，不具体提错误在哪，防止套取用户名
+//        return "error";
+//      }
       user = userInfoDao.getOne("loginUser", map); //根据用户查询用户信息，不传入passs(md5有转义符SQL注入漏洞),防止SQL注入
     }
     if (null == user) {  //用户不存在
@@ -150,6 +150,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, Integer> impl
       userCarteList = carteDao.getList("getAllCarteByTag", user.getSystem_tag());
       for (Map btn : userCarteList) {
         btnAll.put("/" + String.valueOf(btn.get("href")), 1);
+        userBtnMap.put("/" + String.valueOf(btn.get("href")), 1);
       }
     } else {
       userCarteList = carteDao.getList("getAllCarteByTag", user.getSystem_tag());
@@ -192,6 +193,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, Integer> impl
     //memCache.add("userBtnAll", btnAll);
     tokenComponent.set("userBtnAll", btnAll);
 
+
     //把该用户的菜单放进缓存中
     //memCache.delete("userCarte"+user.getUser_code());
     //memCache.delete("userBtn"+user.getUser_code());
@@ -203,6 +205,7 @@ public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, Integer> impl
     UserLoginAllVo userLoginAllVo = new UserLoginAllVo(key1, user, userCarteList, mapbtn, userBtnMap);
     tokenComponent.delLoginUser(user.getUser_code());
     tokenComponent.createToken(userLoginAllVo);
+    tokenComponent.setLoginUser(userLoginAllVo);
     return "sucess";
   }
 

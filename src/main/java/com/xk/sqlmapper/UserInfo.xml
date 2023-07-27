@@ -102,7 +102,7 @@
 	</delete>
 	<!-- 用户登录 -->
 	<select id="loginUser" parameterType="map" resultType="UserInfo">
-	select * from user_info where user_code=#{user_code} and system_tag=1
+	select * from user_info where user_code=#{user_code}
 	</select>
 	<!-- 检查user_code是否存在 -->
 	<select id="checkcode" parameterType="String" resultType="int">
